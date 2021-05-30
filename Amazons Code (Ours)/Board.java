@@ -4,6 +4,8 @@ Sources used:
 */
 package ubc.cosc322;
 
+import java.util.ArrayList;
+
 import ygraph.ai.smartfox.games.BoardGameModel;
 import ygraph.ai.smartfox.games.GamePlayer;
 
@@ -18,6 +20,7 @@ public  class Board {
 	public static final int WHITE_QUEEN = 3;
 	
 	protected int [][] board;
+	private ArrayList<Integer> gameState = new ArrayList<>();
 	
 	// constructor
 	// creates empty board with queens (Amazons) in starting positions
@@ -35,6 +38,22 @@ public  class Board {
 		board[9][6] = BLACK_QUEEN;
 		board[6][9] = BLACK_QUEEN;
 	}
+	
+	//print board
+	
+	public void printState() {
+		for (int i = 0; i < 10; i++) {
+			System.out.println(gameState.subList(i * ROWS + 12, (i + 1) * COLS + 11));
+		}
+		System.out.println();
+	}
+	public void updateState(ArrayList<Integer> queenPos, ArrayList<Integer> queenNext, ArrayList<Integer> arrowPos) {
+		
+	}
+	public void setState(ArrayList<Integer> gameState) {
+		
+	}
+	
 	
 	// clone board constructor
 	public Board(Board cloned) {
