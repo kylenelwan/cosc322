@@ -1,7 +1,4 @@
-/*
-Sources used:
-	tic-tac-toe files (Billy Spelch)
-*/
+
 package ubc.cosc322;
 
 import java.util.ArrayList;
@@ -42,9 +39,26 @@ public  class Board {
 	//print board
 	
 	public void printState() {
-		for (int i = 0; i < 10; i++) {
-			System.out.println(gameState.subList(i * ROWS + 12, (i + 1) * COLS + 11));
+		for(int i = 0; i <10 ; i++) {
+			System.out.print("| ");
+			for(int j = 0; j <10; j++) {
+				if(board[i][j] == WHITE_QUEEN) {
+					System.out.print(" W");
+				}else if(board[i][j] == BLACK_QUEEN) {
+					System.out.print(" B");
+				}else if (board[i][j] == ARROW) {
+					System.out.print(" A");
+				}else {
+					System.out.print(" -");
+					
+				}
+			}
+			System.out.println(" |");
 		}
+		
+		//for (int i = 0; i < 10; i++) {
+			//System.out.println(gameState.subList(i * ROWS + 12, (i + 1) * COLS + 11));
+		//}
 		System.out.println();
 	}
 	public void updateState(ArrayList<Integer> queenPos, ArrayList<Integer> queenNext, ArrayList<Integer> arrowPos) {
