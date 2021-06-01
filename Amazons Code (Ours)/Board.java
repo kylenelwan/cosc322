@@ -89,8 +89,10 @@ public  class Board {
 			for(int j = 0; j <10; j++) {
 				if(board[i][j] == WHITE_QUEEN) {
 					System.out.print(" W");
+					whitePos.add(new XYCoordinates(i, j));
 				}else if(board[i][j] == BLACK_QUEEN) {
 					System.out.print(" B");
+					blackPos.add(new XYCoordinates(i, j));
 				}else if (board[i][j] == ARROW) {
 					System.out.print(" A");
 				}else {
