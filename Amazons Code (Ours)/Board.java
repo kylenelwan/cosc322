@@ -1,8 +1,14 @@
-
+/*
+ * Sources used:
+ * Billy Spelch Tic Tac Toe
+ * https://stackoverflow.com/questions/46694289/sorting-for-2-arraylist-that-each-of-them-represent-x-and-y-coordinate
+ * https://github.com/miken22/322-Amazon-AI/blob/master/src/ai/Board.java
+ */
 package ubc.cosc322;
 
 import java.util.ArrayList;
 
+import cern.colt.list.BooleanArrayList;
 import ygraph.ai.smartfox.games.BoardGameModel;
 import ygraph.ai.smartfox.games.GamePlayer;
 
@@ -18,13 +24,15 @@ public  class Board {
 	
 	protected int [][] board;
 	private ArrayList<Integer> gameState = new ArrayList<>();
+	ArrayList<XYCoordinates> whitePos = new ArrayList<>();
+	ArrayList<XYCoordinates> blackPos = new ArrayList<>();
+	ArrayList<XYCoordinates> whiteTrappedPos = new ArrayList<>();
+	ArrayList<XYCoordinates> blackTrappedPos = new ArrayList<>();
 	
 	// constructor
 	// creates empty board with queens (Amazons) in starting positions
 	public Board() {
-		//******* idk if this is right ******
 		board = new int[ROWS][COLS];
-		
 		board[0][3] = WHITE_QUEEN;
 		board[0][6] = WHITE_QUEEN;
 		board[3][0] = WHITE_QUEEN;
@@ -34,12 +42,19 @@ public  class Board {
 		board[9][3] = BLACK_QUEEN;
 		board[9][6] = BLACK_QUEEN;
 		board[6][9] = BLACK_QUEEN;
+	
+		whitePos = new ArrayList<>();
+		blackPos = new ArrayList<>();
+		whiteTrappedPos = new ArrayList<>();
+		blackTrappedPos = new ArrayList<>();
 	}
 	
 	//print board
 	
 	public void printState() {
-		for(int i = 0; i <10 ; i++) {
+	
+		
+		for(int i = 0; i < 10 ; i++) {
 			System.out.print("| ");
 			for(int j = 0; j <10; j++) {
 				if(board[i][j] == WHITE_QUEEN) {
@@ -50,16 +65,11 @@ public  class Board {
 					System.out.print(" A");
 				}else {
 					System.out.print(" -");
-					
 				}
 			}
 			System.out.println(" |");
 		}
 		
-		//for (int i = 0; i < 10; i++) {
-			//System.out.println(gameState.subList(i * ROWS + 12, (i + 1) * COLS + 11));
-		//}
-		System.out.println();
 	}
 	public void updateState(ArrayList<Integer> queenPos, ArrayList<Integer> queenNext, ArrayList<Integer> arrowPos) {
 		
