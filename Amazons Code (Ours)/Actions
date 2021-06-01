@@ -5,60 +5,52 @@ import java.util.ArrayList;
 public class Actions {
 	//All up moves
 	
-	ArrayList<int[]> actions;
+	ArrayList<XYCoordinates> actions;
 public Actions(){
-	actions = new ArrayList<int[]>();
+	actions = new ArrayList<XYCoordinates>();
 	//Right
 	for(int i = 1; i < 10; i++) {
-		int [] x = {i,0};
-		actions.add(x);
+		actions.add(new XYCoordinates(i, 0));
 	}
 	//Left
 	for(int i = -1; i > -10; i--) {
 		//(-i,0)
-		int [] x = {-i,0};
-		actions.add(x);
+		actions.add(new XYCoordinates(-i, 0));
 	}
 	//Up
 	for(int i = 1; i < 10; i++) {
 		//(0,i)
-		int [] x = {0,i};
-		actions.add(x);
+		actions.add(new XYCoordinates( 0,i));
 		
 	}
 	//down
 	for(int i = -1; i > -10; i--) {
 		//(0,-i)
-		int [] x = {0,-i};
-		actions.add(x);
+		actions.add(new XYCoordinates( 0,-i));
 	}
 	//UpLeft
 	for(int i = 1; i < 10; i++) {
 		//(-i,i)
-		int [] x = {-i,i};
-		actions.add(x);
+		actions.add(new XYCoordinates( -i,i));
 	}
 	//upRight
 	for(int i = 1; i < 10; i++) {
 		//(i,i)
-		int [] x = {i,i};
-		actions.add(x);
+		actions.add(new XYCoordinates(i, i));
 	}
 	//DownRight
 	for(int i = 1; i < 10; i++) {
 			//(i,-i)
-		int [] x = {i,-i};
-		actions.add(x);
+		actions.add(new XYCoordinates(i, -i));
 	}
 	//DownLeft
 	for(int i = 1; i < 10; i++) {
 		//(-i,-i)
-		int [] x = {-i,-i};
-		actions.add(x);
+		actions.add(new XYCoordinates(-i, i));
 	}
 }
 
-public ArrayList<int[]> getActions() {
+public ArrayList<XYCoordinates> getActions() {
 	return actions;
 }
 }
