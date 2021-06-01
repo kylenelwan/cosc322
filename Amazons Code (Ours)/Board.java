@@ -48,8 +48,6 @@ public  class Board {
 		blackPos = new ArrayList<>();
 		whiteTrappedPos = new ArrayList<>();
 		blackTrappedPos = new ArrayList<>();
-		
-	
 	}
 	
 	// clone board constructor
@@ -68,7 +66,7 @@ public  class Board {
 		for(XYCoordinates blackCoord : cloned.getBlackPos()) {
 			blackPos.add(blackCoord);
 		}
-		// these are empty at start
+		// these will be empty at start
 		for(XYCoordinates whiteTrappedCoord : cloned.getWhiteTrappedPos()) {
 			whiteTrappedPos.add(whiteTrappedCoord);
 		}
@@ -105,21 +103,21 @@ public  class Board {
 		}
 	}
 	
-	public boolean isWhiteTrapped(XYCoordinates pos) {
-		if(whiteTrappedPos.contains(pos)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public boolean isBlackTrapped(XYCoordinates pos) {
-		if(blackTrappedPos.contains(pos)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	public boolean isWhiteTrapped(XYCoordinates pos) {
+//		if(whiteTrappedPos.contains(pos)) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
+//	
+//	public boolean isBlackTrapped(XYCoordinates pos) {
+//		if(blackTrappedPos.contains(pos)) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 	
 	
 	public void updateState(ArrayList<Integer> queenPos, ArrayList<Integer> queenNext, ArrayList<Integer> arrowPos) {
@@ -128,7 +126,7 @@ public  class Board {
 	public void setState(ArrayList<Integer> gameState) {
 		
 	}
-	// getter methods
+	// getter and setter methods
 	public ArrayList<XYCoordinates> getWhitePos() {
 		return whitePos;
 	}
@@ -144,5 +142,20 @@ public  class Board {
 	public ArrayList<XYCoordinates> getBlackTrappedPos() {
 		return blackTrappedPos;
 	}
-	
+
+	public void setWhitePos(ArrayList<XYCoordinates> whitePos) {
+		this.whitePos = whitePos;
+	}
+
+	public void setBlackPos(ArrayList<XYCoordinates> blackPos) {
+		this.blackPos = blackPos;
+	}
+
+	public void setWhiteTrappedPos(ArrayList<XYCoordinates> whiteTrappedPos) {
+		this.whiteTrappedPos = whiteTrappedPos;
+	}
+
+	public void setBlackTrappedPos(ArrayList<XYCoordinates> blackTrappedPos) {
+		this.blackTrappedPos = blackTrappedPos;
+	}
 }
