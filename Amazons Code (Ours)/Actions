@@ -1,0 +1,64 @@
+package ubc.cosc322;
+
+import java.util.ArrayList;
+
+public class Actions {
+	//All up moves
+	
+	ArrayList<int[]> actions;
+public Actions(){
+	actions = new ArrayList<int[]>();
+	//Right
+	for(int i = 1; i < 10; i++) {
+		int [] x = {i,0};
+		actions.add(x);
+	}
+	//Left
+	for(int i = -1; i > -10; i--) {
+		//(-i,0)
+		int [] x = {-i,0};
+		actions.add(x);
+	}
+	//Up
+	for(int i = 1; i < 10; i++) {
+		//(0,i)
+		int [] x = {0,i};
+		actions.add(x);
+		
+	}
+	//down
+	for(int i = -1; i > -10; i--) {
+		//(0,-i)
+		int [] x = {0,-i};
+		actions.add(x);
+	}
+	//UpLeft
+	for(int i = 1; i < 10; i++) {
+		//(-i,i)
+		int [] x = {-i,i};
+		actions.add(x);
+	}
+	//upRight
+	for(int i = 1; i < 10; i++) {
+		//(i,i)
+		int [] x = {i,i};
+		actions.add(x);
+	}
+	//DownRight
+	for(int i = 1; i < 10; i++) {
+			//(i,-i)
+		int [] x = {i,-i};
+		actions.add(x);
+	}
+	//DownLeft
+	for(int i = 1; i < 10; i++) {
+		//(-i,-i)
+		int [] x = {-i,-i};
+		actions.add(x);
+	}
+}
+
+public ArrayList<int[]> getActions() {
+	return actions;
+}
+}
