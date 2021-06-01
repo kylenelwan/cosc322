@@ -34,16 +34,7 @@ public  class Board {
 	// creates empty board with queens (Amazons) in starting positions
 	public Board() {
 		board = new int[ROWS][COLS];
-		board[0][3] = WHITE_QUEEN;
-		board[0][6] = WHITE_QUEEN;
-		board[3][0] = WHITE_QUEEN;
-		board[3][9] = WHITE_QUEEN;
 		
-		board[6][0] = BLACK_QUEEN;
-		board[9][3] = BLACK_QUEEN;
-		board[9][6] = BLACK_QUEEN;
-		board[6][9] = BLACK_QUEEN;
-	
 		whitePos = new ArrayList<>();
 		blackPos = new ArrayList<>();
 		whiteTrappedPos = new ArrayList<>();
@@ -52,14 +43,7 @@ public  class Board {
 	
 	// clone board constructor
 	public Board(Board cloned) {
-//			this();
-//			System.arraycopy(cloned.board, 0, board, 0, COLS);
-		board = new int [ROWS][COLS];
-		whitePos = new ArrayList<>();
-		blackPos = new ArrayList<>();
-		whiteTrappedPos = new ArrayList<>();
-		blackTrappedPos = new ArrayList<>();
-		
+		this();
 		for(XYCoordinates whiteCoord : cloned.getWhitePos()) {
 			whitePos.add(whiteCoord);
 		}
@@ -83,7 +67,16 @@ public  class Board {
 		
 	//print board
 	public void printState() {
+		board[0][3] = WHITE_QUEEN;
+		board[0][6] = WHITE_QUEEN;
+		board[3][0] = WHITE_QUEEN;
+		board[3][9] = WHITE_QUEEN;
 		
+		board[6][0] = BLACK_QUEEN;
+		board[9][3] = BLACK_QUEEN;
+		board[9][6] = BLACK_QUEEN;
+		board[6][9] = BLACK_QUEEN;
+	
 		for(int i = 0; i < 10 ; i++) {
 			System.out.print("| ");
 			for(int j = 0; j <10; j++) {
