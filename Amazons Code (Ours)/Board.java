@@ -30,11 +30,16 @@ public  class Board {
 	ArrayList<XYCoordinates> whiteTrappedPos = new ArrayList<>();
 	ArrayList<XYCoordinates> blackTrappedPos = new ArrayList<>();
 	
+	// array lists for moves 
+	ArrayList<Integer> queenToMoveLocation = new ArrayList<>();
+	ArrayList<Integer> queenMovedToLocation = new ArrayList<>();
+	ArrayList<Integer> arrowThrownLocation = new ArrayList<>();
+
+	
 	// constructor
 	// creates empty board with queens (Amazons) in starting positions
 	public Board() {
 		board = new int[ROWS][COLS];
-		
 		whitePos = new ArrayList<>();
 		blackPos = new ArrayList<>();
 		whiteTrappedPos = new ArrayList<>();
@@ -95,7 +100,7 @@ public  class Board {
 			System.out.println(" |");
 		}
 	}
-	
+
 //	public boolean isWhiteTrapped(XYCoordinates pos) {
 //		if(whiteTrappedPos.contains(pos)) {
 //			return true;
@@ -116,9 +121,11 @@ public  class Board {
 	public void updateState(ArrayList<Integer> queenPos, ArrayList<Integer> queenNext, ArrayList<Integer> arrowPos) {
 		
 	}
+	
 	public void setState(ArrayList<Integer> gameState) {
 		
 	}
+	
 	// getter and setter methods
 	public ArrayList<XYCoordinates> getWhitePos() {
 		return whitePos;
