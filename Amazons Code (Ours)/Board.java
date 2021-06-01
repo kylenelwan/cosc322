@@ -47,12 +47,42 @@ public  class Board {
 		blackPos = new ArrayList<>();
 		whiteTrappedPos = new ArrayList<>();
 		blackTrappedPos = new ArrayList<>();
+		
+	
+	}
+	// clone board constructor
+	public Board(Board cloned) {
+//			this();
+//			System.arraycopy(cloned.board, 0, board, 0, COLS);
+		board = new int [ROWS][COLS];
+		whitePos = new ArrayList<>();
+		blackPos = new ArrayList<>();
+		whiteTrappedPos = new ArrayList<>();
+		blackTrappedPos = new ArrayList<>();
+		
+		for(XYCoordinates whiteCoord : cloned.getWhitePos()) {
+			whitePos.add(whiteCoord);
+		}
+		for(XYCoordinates blackCoord : cloned.getBlackPos()) {
+			whitePos.add(blackCoord);
+		}
+		// these are empty at start
+		for(XYCoordinates whiteTrappedCoord : cloned.getWhiteTrappedPos()) {
+			whitePos.add(whiteTrappedCoord);
+		}
+		for(XYCoordinates blackTrappedCoord : cloned.getBlackTrappedPos()) {
+			whitePos.add(blackTrappedCoord);
+		}
+			
+	}
+	// clone board method -- do we need this?
+	public void cloneBoard(Board cloned) {
+		System.arraycopy(cloned.board, 0, board, 0, COLS);
 	}
 	
+		
 	//print board
-	
 	public void printState() {
-	
 		
 		for(int i = 0; i < 10 ; i++) {
 			System.out.print("| ");
@@ -70,6 +100,8 @@ public  class Board {
 			System.out.println(" |");
 		}
 		
+		
+		
 	}
 	public void updateState(ArrayList<Integer> queenPos, ArrayList<Integer> queenNext, ArrayList<Integer> arrowPos) {
 		
@@ -77,17 +109,21 @@ public  class Board {
 	public void setState(ArrayList<Integer> gameState) {
 		
 	}
-	
-	
-	// clone board constructor
-	public Board(Board cloned) {
-		this();
-		System.arraycopy(cloned.board, 0, board, 0, COLS);
+	// getter methods
+	public ArrayList<XYCoordinates> getWhitePos() {
+		return whitePos;
 	}
 	
-	// clone board method
-	public void cloneBoard(Board cloned) {
-		System.arraycopy(cloned.board, 0, board, 0, COLS);
+	public ArrayList<XYCoordinates> getBlackPos() {
+		return blackPos;
+	}
+	
+	public ArrayList<XYCoordinates> getWhiteTrappedPos() {
+		return whiteTrappedPos;
+	}
+	
+	public ArrayList<XYCoordinates> getBlackTrappedPos() {
+		return blackTrappedPos;
 	}
 	
 }
