@@ -22,6 +22,7 @@ public  class Board {
 	public static final int BLACK_QUEEN = 2;
 	public static final int WHITE_QUEEN = 3;
 	
+	public static int arrowCounter = 0; 
 	protected int [][] board;
 	private ArrayList<Integer> gameState = new ArrayList<>();
 	ArrayList<XYCoordinates> whitePos = new ArrayList<>();
@@ -50,6 +51,7 @@ public  class Board {
 		
 	
 	}
+	
 	// clone board constructor
 	public Board(Board cloned) {
 //			this();
@@ -64,17 +66,17 @@ public  class Board {
 			whitePos.add(whiteCoord);
 		}
 		for(XYCoordinates blackCoord : cloned.getBlackPos()) {
-			whitePos.add(blackCoord);
+			blackPos.add(blackCoord);
 		}
 		// these are empty at start
 		for(XYCoordinates whiteTrappedCoord : cloned.getWhiteTrappedPos()) {
-			whitePos.add(whiteTrappedCoord);
+			whiteTrappedPos.add(whiteTrappedCoord);
 		}
 		for(XYCoordinates blackTrappedCoord : cloned.getBlackTrappedPos()) {
-			whitePos.add(blackTrappedCoord);
-		}
-			
+			blackTrappedPos.add(blackTrappedCoord);
+		}	
 	}
+	
 	// clone board method -- do we need this?
 	public void cloneBoard(Board cloned) {
 		System.arraycopy(cloned.board, 0, board, 0, COLS);
@@ -101,10 +103,25 @@ public  class Board {
 			}
 			System.out.println(" |");
 		}
-		
-		
-		
 	}
+	
+	public boolean isWhiteTrapped(XYCoordinates pos) {
+		if(whiteTrappedPos.contains(pos)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isBlackTrapped(XYCoordinates pos) {
+		if(blackTrappedPos.contains(pos)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
 	public void updateState(ArrayList<Integer> queenPos, ArrayList<Integer> queenNext, ArrayList<Integer> arrowPos) {
 		
 	}
