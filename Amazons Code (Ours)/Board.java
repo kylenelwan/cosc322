@@ -22,6 +22,8 @@ public  class Board {
 	public static final int BLACK_QUEEN = 2;
 	public static final int WHITE_QUEEN = 3;
 	
+	boolean freeSpace;
+	
 	public static int arrowCounter = 0; 
 	protected int [][] board;
 	private ArrayList<Integer> gameState = new ArrayList<>();
@@ -88,13 +90,17 @@ public  class Board {
 				if(board[i][j] == WHITE_QUEEN) {
 					System.out.print(" W");
 					whitePos.add(new XYCoordinates(i, j));
+					freeSpace = false;
 				}else if(board[i][j] == BLACK_QUEEN) {
 					System.out.print(" B");
 					blackPos.add(new XYCoordinates(i, j));
+					freeSpace = false;
 				}else if (board[i][j] == ARROW) {
 					System.out.print(" A");
+					freeSpace = false;
 				}else {
 					System.out.print(" -");
+					freeSpace = true;
 				}
 			}
 			System.out.println(" |");
