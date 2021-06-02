@@ -47,7 +47,7 @@ public Actions(){
 	//DownLeft
 	for(int i = 1; i < 10; i++) {
 		//(-i,-i)
-		actions.add(new XYCoordinates(-i, i));
+		actions.add(new XYCoordinates(-i, -i));
 	}
 }
 
