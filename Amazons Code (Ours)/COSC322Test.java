@@ -1,4 +1,3 @@
-
 package ubc.cosc322;
 
 import java.util.ArrayList;
@@ -60,21 +59,18 @@ public class COSC322Test extends GamePlayer{
     	
     	//To make a GUI-based player, create an instance of BaseGameGUI
     	//and implement the method getGameGUI() accordingly
-    	//this.gamegui = new BaseGameGUI(this);
+    	this.gamegui = new BaseGameGUI(this);
     }
  
 
 
     @Override
     public void onLogin() {
-    	System.out.println("Congratualations!!! "
-    			+ "I am called because the server indicated that the login is successfully");
-    	System.out.println("The next step is to find a room and join it: "
-    			+ "the gameClient instance created in my constructor knows how!"); 
     	userName = gameClient.getUserName();
     	if(gamegui != null) {
-    	gamegui.setRoomInformation(gameClient.getRoomList());
+    		gamegui.setRoomInformation(gameClient.getRoomList());
     	}
+    	
     }
 
     @Override
@@ -85,7 +81,7 @@ public class COSC322Test extends GamePlayer{
     		ArrayList <Integer> arrowpos = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.ARROW_POS);
     		board.updateState(queenpos, queennext, arrowpos);
     		board.printState();
-    		this.gamegui.updateGameState(queenpos,queennext,arrowpos);
+    		this.gamegui.updateGameState(queenpos, queennext, arrowpos);
     	}
     	if(messageType.equalsIgnoreCase(GameMessage.GAME_STATE_BOARD)) {
     		ArrayList <Integer> gameState = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE);
