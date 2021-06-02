@@ -63,12 +63,14 @@ public class COSC322Test extends GamePlayer{
     }
  
 
-
     @Override
     public void onLogin() {
     	userName = gameClient.getUserName();
     	if(gamegui != null) {
     		gamegui.setRoomInformation(gameClient.getRoomList());
+    		for (Room element : gameClient.getRoomList()) {
+    		    System.out.println(element);
+    		}
     	}
     	
     }
