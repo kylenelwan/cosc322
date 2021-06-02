@@ -74,15 +74,15 @@ public  class Board {
 		
 	//print board
 	public void printState() {
-		board[0][3] = WHITE_QUEEN;
-		board[0][6] = WHITE_QUEEN;
-		board[3][0] = WHITE_QUEEN;
-		board[3][9] = WHITE_QUEEN;
+		board[0][3] = BLACK_QUEEN;
+		board[0][6] = BLACK_QUEEN;
+		board[3][0] = BLACK_QUEEN;
+		board[3][9] = BLACK_QUEEN;
 		
-		board[6][0] = BLACK_QUEEN;
-		board[9][3] = BLACK_QUEEN;
-		board[9][6] = BLACK_QUEEN;
-		board[6][9] = BLACK_QUEEN;
+		board[6][0] = WHITE_QUEEN;
+		board[9][3] = WHITE_QUEEN;
+		board[9][6] = WHITE_QUEEN;
+		board[6][9] = WHITE_QUEEN;
 	
 		for(int i = 0; i < 10 ; i++) {
 			System.out.print("| ");
