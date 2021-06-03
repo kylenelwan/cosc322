@@ -1,5 +1,5 @@
 package ubc.cosc322;
-
+//source of idea https://github.com/cosc-322-main-team/322GameOfAmazons/blob/7d3ff936baec290392193b74cdb7ac10a15643c6/team-01/src/main/java/ubc/cosc322/AmazonsActionFactory.java
 import java.util.ArrayList;
 
 public class AllPossibleActions {
@@ -10,7 +10,6 @@ public class AllPossibleActions {
 		//if(user is black)
 		ArrayList<Move> allMoves = new ArrayList<Move>();
 		ArrayList<XYCoordinates> queenPosBlack = board.blackPos;
-		System.out.println(queenPosBlack.size());
 		while(!queenPosBlack.isEmpty()) {
 			XYCoordinates queenPos = queenPosBlack.remove(0);
 			ArrayList<XYCoordinates> allQueenMoves = getTargets(queenPos.getX(), queenPos.getY(), board);
@@ -35,10 +34,10 @@ public class AllPossibleActions {
 		//if(user is white)
 		ArrayList<Move> allMoves = new ArrayList<Move>();
 		ArrayList<XYCoordinates> queenPosWhite = board.whitePos;
-		//System.out.println(queenPosWhite.size());
+	
 		while(!queenPosWhite.isEmpty()) {
 			XYCoordinates queenPos = queenPosWhite.remove(0);
-			System.out.println(queenPos);
+		
 			ArrayList<XYCoordinates> allQueenMoves = getTargets(queenPos.getX(), queenPos.getY(), board);
 			
 			while(!allQueenMoves.isEmpty()) {
@@ -71,7 +70,7 @@ public class AllPossibleActions {
 			int x = X + actionList.get(i).getX();
 			int y = Y + actionList.get(i).getY();
 			
-			if(x > 9 || x < 0 || y > 9 || y < 0 ) { // is it in the bounds of the board
+			if(x > 10 || x < 1 || y > 10 || y < 1 ) { // is it in the bounds of the board
 				i += count;
 				count = 8;
 				
