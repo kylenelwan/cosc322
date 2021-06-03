@@ -19,8 +19,8 @@ public class XYCoordinates{
 	}
 	public ArrayList<Integer> getXY() {
 		ArrayList<Integer> xy = new ArrayList<Integer>();
-		xy.add(y);
 		xy.add(x);
+		xy.add(y);
 		return xy;
 	}
 	
