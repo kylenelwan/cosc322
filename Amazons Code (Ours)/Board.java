@@ -1,9 +1,3 @@
-/*
- * Sources used:
- * Billy Spelch Tic Tac Toe
- * https://stackoverflow.com/questions/46694289/sorting-for-2-arraylist-that-each-of-them-represent-x-and-y-coordinate
- * https://github.com/miken22/322-Amazon-AI/blob/master/src/ai/Board.java
- */
 package ubc.cosc322;
 
 import java.util.ArrayList;
@@ -22,30 +16,47 @@ public  class Board {
 	public static final int BLACK_QUEEN = 2;
 	public static final int WHITE_QUEEN = 3;
 	
-	boolean freeSpace;
-	
 	public static int arrowCounter = 0; 
 	protected int [][] board;
-	private ArrayList<Integer> gameState = new ArrayList<>();
+//	private ArrayList<Integer> gameState = new ArrayList<>();
 	ArrayList<XYCoordinates> whitePos = new ArrayList<>();
 	ArrayList<XYCoordinates> blackPos = new ArrayList<>();
-	ArrayList<XYCoordinates> whiteTrappedPos = new ArrayList<>();
-	ArrayList<XYCoordinates> blackTrappedPos = new ArrayList<>();
+//	ArrayList<XYCoordinates> whiteTrappedPos = new ArrayList<>();
+//	ArrayList<XYCoordinates> blackTrappedPos = new ArrayList<>();
 	
-	// array lists for moves 
-	ArrayList<Integer> queenToMoveLocation = new ArrayList<>();
-	ArrayList<Integer> queenMovedToLocation = new ArrayList<>();
-	ArrayList<Integer> arrowThrownLocation = new ArrayList<>();
 
 	
 	// constructor
 	// creates empty board with queens (Amazons) in starting positions
 	public Board() {
+		
+		
 		board = new int[ROWS][COLS];
+		board[0][3] = BLACK_QUEEN;
+		board[0][6] = BLACK_QUEEN;
+		board[3][0] = BLACK_QUEEN;
+		board[3][9] = BLACK_QUEEN;
+		
+		board[6][0] = WHITE_QUEEN;
+		board[9][3] = WHITE_QUEEN;
+		board[9][6] = WHITE_QUEEN;
+		board[6][9] = WHITE_QUEEN;
 		whitePos = new ArrayList<>();
 		blackPos = new ArrayList<>();
-		whiteTrappedPos = new ArrayList<>();
-		blackTrappedPos = new ArrayList<>();
+		initPositions();
+//		whiteTrappedPos = new ArrayList<>();
+//		blackTrappedPos = new ArrayList<>();
+	}
+	public void initPositions() {
+		for(int i = 0; i < 10 ; i++) {
+			for(int j = 0; j <10; j++) {
+		if(board[i][j] == WHITE_QUEEN) {
+			whitePos.add(new XYCoordinates(i, j));
+		}else if(board[i][j] == BLACK_QUEEN) {
+			blackPos.add(new XYCoordinates(i, j));
+		}
+			}
+		}
 	}
 	
 	// clone board constructor
@@ -58,12 +69,12 @@ public  class Board {
 			blackPos.add(blackCoord);
 		}
 		// these will be empty at start
-		for(XYCoordinates whiteTrappedCoord : cloned.getWhiteTrappedPos()) {
-			whiteTrappedPos.add(whiteTrappedCoord);
-		}
-		for(XYCoordinates blackTrappedCoord : cloned.getBlackTrappedPos()) {
-			blackTrappedPos.add(blackTrappedCoord);
-		}	
+//		for(XYCoordinates whiteTrappedCoord : cloned.getWhiteTrappedPos()) {
+//			whiteTrappedPos.add(whiteTrappedCoord);
+//		}
+//		for(XYCoordinates blackTrappedCoord : cloned.getBlackTrappedPos()) {
+//			blackTrappedPos.add(blackTrappedCoord);
+//		}	
 	}
 	
 	// clone board method -- do we need this?
@@ -74,37 +85,28 @@ public  class Board {
 		
 	//print board
 	public void printState() {
-		board[0][3] = BLACK_QUEEN;
-		board[0][6] = BLACK_QUEEN;
-		board[3][0] = BLACK_QUEEN;
-		board[3][9] = BLACK_QUEEN;
 		
-		board[6][0] = WHITE_QUEEN;
-		board[9][3] = WHITE_QUEEN;
-		board[9][6] = WHITE_QUEEN;
-		board[6][9] = WHITE_QUEEN;
-	
 		for(int i = 0; i < 10 ; i++) {
 			System.out.print("| ");
 			for(int j = 0; j <10; j++) {
 				if(board[i][j] == WHITE_QUEEN) {
 					System.out.print(" W");
 					whitePos.add(new XYCoordinates(i, j));
-					freeSpace = false;
 				}else if(board[i][j] == BLACK_QUEEN) {
 					System.out.print(" B");
 					blackPos.add(new XYCoordinates(i, j));
-					freeSpace = false;
 				}else if (board[i][j] == ARROW) {
 					System.out.print(" A");
-					freeSpace = false;
 				}else {
 					System.out.print(" -");
-					freeSpace = true;
 				}
 			}
 			System.out.println(" |");
+			
+			
 		}
+		System.out.println(" ");
+		System.out.println(" ");
 	}
 
 //	public boolean isWhiteTrapped(XYCoordinates pos) {
@@ -122,10 +124,42 @@ public  class Board {
 //			return false;
 //		}
 //	}
-	
-	
-	public void updateState(ArrayList<Integer> queenPos, ArrayList<Integer> queenNext, ArrayList<Integer> arrowPos) {
+	public void getOppMove(ArrayList<Integer> queenPos, ArrayList<Integer> queenNext, ArrayList<Integer> arrowPos) {
+		XYCoordinates oldPos = new XYCoordinates(queenPos.get(1), queenPos.get(0));
+		XYCoordinates newPos = new XYCoordinates(queenNext.get(1), queenNext.get(0));
+		XYCoordinates newArrow = new XYCoordinates(arrowPos.get(1), arrowPos.get(0));
+		updateState(oldPos, newPos, newArrow);
 		
+	}
+	
+	
+	public void updateState(XYCoordinates queenPos, XYCoordinates queenNext, XYCoordinates arrowPos) {
+		int queen = board[queenPos.x][queenPos.y];
+		board[queenPos.x][queenPos.y] = AVAILABLE;
+		board[queenNext.x][queenNext.y] = queen;
+		board[arrowPos.x][arrowPos.y] = ARROW;
+		if(queen == BLACK_QUEEN) {
+			ArrayList<XYCoordinates> blackPos = getBlackPos();
+			for(int i = 0; i < blackPos.size(); i++ ) {
+				if(blackPos.get(i).y ==queenNext.y && blackPos.get(i).x == queenNext.x) {
+					blackPos.set(i, queenNext);
+				}
+			}
+			setBlackPos(blackPos);
+		}else if(queen == WHITE_QUEEN) {
+			ArrayList<XYCoordinates> whitePos = getWhitePos();
+			for(int i = 0; i < whitePos.size(); i++ ) {
+				if(whitePos.get(i).y ==queenNext.y && whitePos.get(i).x == queenNext.x) {
+					whitePos.set(i, queenNext);
+				}
+			}
+			setWhitePos(whitePos);
+		}
+	
+		
+	}
+	public int getGamePos(int x, int y) {
+		return board[x][y];
 	}
 	
 	public void setState(ArrayList<Integer> gameState) {
@@ -141,13 +175,13 @@ public  class Board {
 		return blackPos;
 	}
 	
-	public ArrayList<XYCoordinates> getWhiteTrappedPos() {
-		return whiteTrappedPos;
-	}
-	
-	public ArrayList<XYCoordinates> getBlackTrappedPos() {
-		return blackTrappedPos;
-	}
+//	public ArrayList<XYCoordinates> getWhiteTrappedPos() {
+//		return whiteTrappedPos;
+//	}
+//	
+//	public ArrayList<XYCoordinates> getBlackTrappedPos() {
+//		return blackTrappedPos;
+//	}
 
 	public void setWhitePos(ArrayList<XYCoordinates> whitePos) {
 		this.whitePos = whitePos;
@@ -157,11 +191,11 @@ public  class Board {
 		this.blackPos = blackPos;
 	}
 
-	public void setWhiteTrappedPos(ArrayList<XYCoordinates> whiteTrappedPos) {
-		this.whiteTrappedPos = whiteTrappedPos;
-	}
-
-	public void setBlackTrappedPos(ArrayList<XYCoordinates> blackTrappedPos) {
-		this.blackTrappedPos = blackTrappedPos;
-	}
+//	public void setWhiteTrappedPos(ArrayList<XYCoordinates> whiteTrappedPos) {
+//		this.whiteTrappedPos = whiteTrappedPos;
+//	}
+//
+//	public void setBlackTrappedPos(ArrayList<XYCoordinates> blackTrappedPos) {
+//		this.blackTrappedPos = blackTrappedPos;
+//	}
 }
