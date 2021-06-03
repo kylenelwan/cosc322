@@ -24,8 +24,16 @@ public class COSC322Test extends GamePlayer{
 	
     private String userName = null;
     private String passwd = null;
-    
-    Board board = new Board();
+    private int color = 0;
+    public int getColor() {
+		return color;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
+	}
+	private int player = 0;
+	Board board = new Board();
  
 	
     /**
@@ -62,40 +70,64 @@ public class COSC322Test extends GamePlayer{
     	this.gamegui = new BaseGameGUI(this);
     }
  
+   
+
+    
 
     @Override
     public void onLogin() {
+    	System.out.println("Congratualations!!! "
+    			+ "I am called because the server indicated that the login is successfully");
+    	System.out.println("The next step is to find a room and join it: "
+    			+ "the gameClient instance created in my constructor knows how!"); 
     	userName = gameClient.getUserName();
     	if(gamegui != null) {
     		gamegui.setRoomInformation(gameClient.getRoomList());
-    		for (Room element : gameClient.getRoomList()) {
-    		    System.out.println(element);
-    		}
     	}
-    	
     }
 
     @Override
     public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
+    	if(messageType.equalsIgnoreCase(GameMessage.GAME_ACTION_START)) {
+    		String blackPlayer = (String) msgDetails.get(AmazonsGameMessage.PLAYER_BLACK);
+    		String whitePlayer = (String) msgDetails.get(AmazonsGameMessage.PLAYER_WHITE);
+    		//test if username == to blackPlayer
+    		//if black make first move 
+    		if(blackPlayer.equals(userName)) {
+    			System.out.println("User: Black");
+    			player = 1;
+    			pickAmove();
+    		}else if(whitePlayer.equals(userName)){
+    			System.out.println("User: White");
+    			player = 2;
+    		}else {
+    			System.out.println(userName);
+    			System.out.println(whitePlayer);
+    			System.out.println(blackPlayer);
+    		}
+    	
+    	}
     	if(messageType.equalsIgnoreCase(GameMessage.GAME_ACTION_MOVE)) {
+    		//get the queens last pos, next pos, and arrow pos from opp turn
     		ArrayList <Integer> queenpos = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR);
     		ArrayList <Integer> queennext = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT);
     		ArrayList <Integer> arrowpos = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.ARROW_POS);
-    		board.updateState(queenpos, queennext, arrowpos);
+    		//update our board with board.getOppMove(queenpos, queennext, arrowpos);
+    		board.getOppMove(queenpos, queennext, arrowpos);
+    		//print board state
     		board.printState();
-    		this.gamegui.updateGameState(queenpos, queennext, arrowpos);
+    		//update gamegui gamestate
+    		gamegui.updateGameState(queenpos,queennext,arrowpos);
+    		pickAmove();
+    		
+    		
     	}
     	if(messageType.equalsIgnoreCase(GameMessage.GAME_STATE_BOARD)) {
     		ArrayList <Integer> gameState = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE);
-    		board.setState(gameState);
+    	//	board.setState(gameState);
     		board.printState();
-    		this.gamegui.setGameState(gameState);
+    		gamegui.setGameState(gameState);
     		//edit setState, updateState, and printState methods
-    	}
-    	if(messageType.equalsIgnoreCase(GameMessage.GAME_ACTION_START)) {
-    		ArrayList <Integer> board = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE);
-    		this.gamegui.setGameState(board);
-    		//unsure about this method
     	}
     	return true;
     }
@@ -123,6 +155,32 @@ public class COSC322Test extends GamePlayer{
 		// TODO Auto-generated method stub
     	gameClient = new GameClient(userName, passwd, this);			
 	}
+	
+	protected void pickAmove() {
+    	RandomPlayer ran = new RandomPlayer();
+    	AllPossibleActions actions = new AllPossibleActions();
+    	Move ranMove = null;
+    	if(player == 1) {
+    		ranMove = ran.ranMove(actions.getAllBlackQueens(board));
+    	}else if(player == 2) {
+    		ranMove = ran.ranMove(actions.getAllWhiteQueens(board));
+    	}
+    	sendMove(ranMove);
+    	
+    }
+	
+	
+	 protected void sendMove(Move move) {
+	    	if(move!= null) {
+	    		board.updateState(move.queenPos, move.queenNext, move.arrowPos);
+	    		board.printState();
+	    		gamegui.updateGameState(new ArrayList<Integer>(move.getQueenPos()), new ArrayList<Integer>(move.getQueenNext()), new ArrayList<Integer>(move.getArrowPos()));
+	    		gameClient.sendMoveMessage(new ArrayList<Integer>(move.getQueenPos()), new ArrayList<Integer>(move.getQueenNext()), new ArrayList<Integer>(move.getArrowPos()));
+	    	}else {
+	    		System.out.println("GAME OVER!");
+	    	}
+	    	
+	    	}
 
  
 }//end of class
