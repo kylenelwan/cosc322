@@ -158,6 +158,16 @@ public  class Board {
 		XYCoordinates queenPos = whitePos.remove(index);
 		trappedWhitePos.add(queenPos);
 	}
+	
+	public int checkGame() {
+		if(trappedBlackPos.size() == 4) {
+			return 1;
+		}else if(trappedWhitePos.size() == 4) {
+			return 2;
+		}else {
+			return -1;
+		}
+	}
 	// getter and setter methods
 	public ArrayList<XYCoordinates> getWhitePos() {
 		return whitePos;
@@ -166,7 +176,7 @@ public  class Board {
 	public ArrayList<XYCoordinates> getBlackPos() {
 		return blackPos;
 	}
-	
+
 
 
 	public void setWhitePos(ArrayList<XYCoordinates> whitePos) {
