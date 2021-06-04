@@ -21,6 +21,8 @@ public  class Board {
 //	private ArrayList<Integer> gameState = new ArrayList<>();
 	ArrayList<XYCoordinates> whitePos = new ArrayList<>();
 	ArrayList<XYCoordinates> blackPos = new ArrayList<>();
+	ArrayList<XYCoordinates> trappedWhitePos = new ArrayList<>();
+	ArrayList<XYCoordinates> trappedBlackPos = new ArrayList<>();
 
 	
 
@@ -56,6 +58,7 @@ public  class Board {
 			}
 		}
 	}
+
 	
 	// clone board constructor
 	public Board(Board cloned) {
@@ -146,6 +149,15 @@ public  class Board {
 		
 	}
 	
+	public void isTrappedBlack(int index) {
+		XYCoordinates queenPos = blackPos.remove(index);
+		trappedBlackPos.add(queenPos);
+	}
+	
+	public void isTrappedWhite(int index) {
+		XYCoordinates queenPos = whitePos.remove(index);
+		trappedWhitePos.add(queenPos);
+	}
 	// getter and setter methods
 	public ArrayList<XYCoordinates> getWhitePos() {
 		return whitePos;
