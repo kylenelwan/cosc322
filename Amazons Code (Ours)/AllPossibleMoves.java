@@ -5,11 +5,12 @@ import java.util.ArrayList;
 public class AllPossibleActions {
 
 	
-	
+	Actions action = new Actions();
 	public ArrayList<Move> getAllBlackQueens(Board board) {
 		//if(user is black)
 		ArrayList<Move> allMoves = new ArrayList<Move>();
 		ArrayList<XYCoordinates> queenPosBlack = board.blackPos;
+		int queenCount = 0;
 		while(!queenPosBlack.isEmpty()) {
 			XYCoordinates queenPos = queenPosBlack.remove(0);
 			ArrayList<XYCoordinates> allQueenMoves = getTargets(queenPos.getX(), queenPos.getY(), board);
@@ -17,13 +18,19 @@ public class AllPossibleActions {
 			while(!allQueenMoves.isEmpty()) {
 				XYCoordinates queenNext = allQueenMoves.remove(0);
 				ArrayList<XYCoordinates> allTargets = getTargets(queenNext.getX(), queenNext.getY(), board);
-				
+				if(allTargets.isEmpty()) {
+					// add a double check function
+					//call isTrapped 
+					board.isTrappedBlack(queenCount);
+				}
 				while(!allTargets.isEmpty()) {
 					XYCoordinates arrowPos = allTargets.remove(0);
 					
 					allMoves.add(new Move(queenPos, queenNext, arrowPos));
 				}
+			
 			}
+			queenCount++;
 			
 		}
 		return allMoves;
@@ -34,7 +41,7 @@ public class AllPossibleActions {
 		//if(user is white)
 		ArrayList<Move> allMoves = new ArrayList<Move>();
 		ArrayList<XYCoordinates> queenPosWhite = board.whitePos;
-	
+		int queenCount = 0;
 		while(!queenPosWhite.isEmpty()) {
 			XYCoordinates queenPos = queenPosWhite.remove(0);
 		
@@ -44,12 +51,18 @@ public class AllPossibleActions {
 				XYCoordinates queenNext = allQueenMoves.remove(0);
 				ArrayList<XYCoordinates> allTargets = getTargets(queenNext.getX(), queenNext.getY(), board);
 				
+				if(allTargets.isEmpty()) {
+					// add a double check function
+					//call isTrapped 
+					board.isTrappedWhite(queenCount);
+				}
 				while(!allTargets.isEmpty()) {
 					XYCoordinates arrowPos = allTargets.remove(0);
 					
 					allMoves.add(new Move(queenPos, queenNext, arrowPos));
 				}
 			}
+			queenCount++;
 			
 		}
 		return allMoves;
@@ -63,7 +76,6 @@ public class AllPossibleActions {
 		ArrayList<XYCoordinates> target = new ArrayList<XYCoordinates>();
 		int count = 8;
 		
-		Actions action = new Actions();
 		ArrayList<XYCoordinates> actionList = action.getActions();
 		int i = 0;
 		while(i < actionList.size()) {	
@@ -91,4 +103,11 @@ public class AllPossibleActions {
 		
 		return target;
 	}
+	
+	public void trapped(){
+		
+		
+	}
+	
+	
 }
