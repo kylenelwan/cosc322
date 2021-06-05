@@ -27,8 +27,10 @@ public class MCTS {
 				expand(promisingNode);
 			}
 			Node nodeExplore = promisingNode;
-			
-		   // add rest
+			if (promisingNode.getChild().size() > 0) {
+                nodeExplore = promisingNode.getRandomChildNode();
+            }
+		   // add more
 		}
 		return board; // change later
 	}
