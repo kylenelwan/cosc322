@@ -35,11 +35,24 @@ public class State {
 	    	return allStates;
 	    	
 	    }
-	    public void randomPlay() {
+	    public Board getBoard() {
+			return board;
+		}
+		public void setBoard(Board board) {
+			this.board = board;
+		}
+		public int getPlayerNo() {
+			return playerNo;
+		}
+		public void setPlayerNo(int playerNo) {
+			this.playerNo = playerNo;
+		}
+		public void randomPlay() {
 	        /* get a list of all possible positions on the board and 
 	           play a random move */
 	    	ArrayList<State> allPos = getAllPossibleStates();
 	    	
 	    }
 	}
+
 
