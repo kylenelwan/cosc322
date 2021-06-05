@@ -53,6 +53,16 @@ public class State {
 	    	ArrayList<State> allPos = getAllPossibleStates();
 	    	
 	    }
+		
+		// does this make sense?
+		public int getOpponent() {
+			if (playerNo == 1) {
+				return 2;
+			} else {
+				return 1;
+			}
+		}
 	}
+
 
 
