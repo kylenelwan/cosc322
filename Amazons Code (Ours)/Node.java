@@ -1,10 +1,12 @@
 /*
  * Sources used:
  * https://www.baeldung.com/java-monte-carlo-tree-search
+ * https://www.baeldung.com/java-random-list-element
  */
 package ubc.cosc322;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Node {
 	State state;
@@ -28,6 +30,14 @@ public class Node {
 	public void setChild(ArrayList<Node> child) {
 		Child = child;
 	}
+	
+	// double check this!!! does it make sense?
+	// should it be a new array list?
+	public Node getRandomChildNode() {
+	    Random rand = new Random();
+	    Node randomNode = Child.get(rand.nextInt(Child.size()));
+		return randomNode;	
+	}
 }
 
 class Tree {
@@ -39,4 +49,6 @@ class Tree {
 	public void setRoot(Node root) {
 		this.root = root;
 	}
+	
+	
 }
