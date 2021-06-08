@@ -32,7 +32,6 @@ public class COSC322Test extends GamePlayer{
 	public void setColor(int color) {
 		this.color = color;
 	}
-	private int player = 0;
 	Board board = new Board();
  
 	
@@ -95,11 +94,11 @@ public class COSC322Test extends GamePlayer{
     		//if black make first move 
     		if(blackPlayer.equals(userName)) {
     			System.out.println("User: Black");
-    			player = 1;
+    			board.playerNo = 1;
     			pickAmove();
     		}else if(whitePlayer.equals(userName)){
     			System.out.println("User: White");
-    			player = 2;
+    			board.playerNo = 2;
     		}else {
     			System.out.println(userName);
     			System.out.println(whitePlayer);
@@ -159,21 +158,20 @@ public class COSC322Test extends GamePlayer{
 	}
 	
 	protected void pickAmove() {
-//    	RandomPlayer ran = new RandomPlayer();
-//    	AllPossibleActions actions = new AllPossibleActions();
-//    	Move ranMove = null;
-//    	if(player == 1) {
-//    		ranMove = ran.ranMove(actions.getAllBlackQueens(board));
-//    		
-//    	}else if(player == 2) {
-//    		ranMove = ran.ranMove(actions.getAllWhiteQueens(board));
-//    	
-//    	}
-//    	sendMove(ranMove);
-		NewMonteCarlo mtcs = new NewMonteCarlo();
-    	Move mtcsMove = mtcs.findNextMove(board, player);
-    	
-    	sendMove(mtcsMove);
+		AllPossibleActions action = new AllPossibleActions();
+		if(action.trappedNextQueen(board.blackPos, board)) {
+				System.out.println("White wins Game over!");
+				board.setTrappedBlackPos(true);
+		}
+		if(action.trappedNextQueen(board.whitePos, board)) {
+				System.out.println("Black wins Game over!");
+				board.setTrappedWhitePos(true);
+		}
+		if(!board.isTrapped()) {
+			NewMonteCarlo mtcs = new NewMonteCarlo();
+			Move mtcsMove = mtcs.findNextMove(board, board.playerNo);
+			sendMove(mtcsMove);
+		}
     	
     }
 	
