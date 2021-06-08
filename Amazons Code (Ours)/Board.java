@@ -17,16 +17,18 @@ public  class Board {
 	public static final int WHITE_QUEEN = 3;
 	
 	public static int arrowCounter = 0; 
+	public static int playerNo = 0;
 	protected int [][] board;
 //	private ArrayList<Integer> gameState = new ArrayList<>();
 	ArrayList<XYCoordinates> whitePos = new ArrayList<>();
 	ArrayList<XYCoordinates> blackPos = new ArrayList<>();
-	ArrayList<XYCoordinates> trappedWhitePos = new ArrayList<>();
-	ArrayList<XYCoordinates> trappedBlackPos = new ArrayList<>();
+	Boolean trappedWhitePos = false;
+	Boolean trappedBlackPos = false;
 
 	
 
 	
+
 	// constructor
 	// creates empty board with queens (Amazons) in starting positions
 	public Board() {
@@ -103,34 +105,16 @@ public  class Board {
 		XYCoordinates newPos = new XYCoordinates(queenNext.get(0), queenNext.get(1));
 		XYCoordinates newArrow = new XYCoordinates(arrowPos.get(0), arrowPos.get(1));
 		updateState(oldPos, newPos, newArrow);
+		//isTrappedTest();
 		
 	}
 	
 	
 	public void updateState(XYCoordinates queenPos, XYCoordinates queenNext, XYCoordinates arrowPos) {
-//		System.out.println(queenPos.x + "," + queenPos.y);
-//		System.out.println(queenNext.x + "," + queenNext.y);
 		int queen = board[queenPos.x][queenPos.y];
 		board[queenPos.x][queenPos.y] = AVAILABLE;
 		board[queenNext.x][queenNext.y] = queen;
 		board[arrowPos.x][arrowPos.y] = ARROW;
-//		if(queen == BLACK_QUEEN) {
-//			ArrayList<XYCoordinates> newblackPos = getBlackPos();
-//			for(int i = 0; i < newblackPos.size(); i++ ) {
-//				if(newblackPos.get(i).y ==queenNext.y && newblackPos.get(i).x == queenNext.x) {
-//					newblackPos.set(i, queenNext);
-//				}
-//			}
-//			setBlackPos(blackPos);
-//		}else if(queen == WHITE_QUEEN) {
-//			ArrayList<XYCoordinates> whitePos = getWhitePos();
-//			for(int i = 0; i < whitePos.size(); i++ ) {
-//				if(whitePos.get(i).y ==queenNext.y && whitePos.get(i).x == queenNext.x) {
-//					whitePos.set(i, queenNext);
-//				}
-//			}
-//			//setWhitePos(whitePos);
-//		}
 		whitePos.clear();
 		blackPos.clear();
 		for(int i = 10; i > 0 ; i--) {
@@ -149,25 +133,29 @@ public  class Board {
 		return board[x][y];
 	}
 	
-	public void setState(ArrayList<Integer> gameState) {
-		
-	}
+//	public boolean isTrappedTest() {
+//		AllPossibleActions all = new AllPossibleActions();
+//		if(playerNo == 1) {
+//			
+//		}else if(playerNo == 2){
+//			
+//		}
+//	}
 	
-	public void isTrappedBlack(int index) {
-		XYCoordinates queenPos = blackPos.remove(index);
-		trappedBlackPos.add(queenPos);
-	}
+
 	
-	public void isTrappedWhite(int index) {
-		XYCoordinates queenPos = whitePos.remove(index);
-		trappedWhitePos.add(queenPos);
+	public Boolean isTrapped() {
+		if(playerNo == 1) {
+			return getTrappedBlackPos();
+		}else if(playerNo ==2) {
+			return getTrappedWhitePos();
+		}else
+			return false;
 	}
 	
 	public int checkGame() {
-		if(trappedBlackPos.size() == 4) {
-			return 1;
-		}else if(trappedWhitePos.size() == 4) {
-			return 2;
+		if(isTrapped()) {
+			return 3 -playerNo;
 		}else {
 			return -1;
 		}
@@ -189,6 +177,18 @@ public  class Board {
 
 	public void setBlackPos(ArrayList<XYCoordinates> blackPos) {
 		this.blackPos = blackPos;
+	}
+	public Boolean getTrappedWhitePos() {
+		return trappedWhitePos;
+	}
+	public void setTrappedWhitePos(Boolean trappedWhitePos) {
+		this.trappedWhitePos = trappedWhitePos;
+	}
+	public Boolean getTrappedBlackPos() {
+		return trappedBlackPos;
+	}
+	public void setTrappedBlackPos(Boolean trappedBlackPos) {
+		this.trappedBlackPos = trappedBlackPos;
 	}
 
 
