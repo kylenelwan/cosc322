@@ -15,16 +15,12 @@ public class AllPossibleActions {
 		
 		for(int i = 0; i < queenPosBlack.size(); i++) {
 			XYCoordinates queenPos = queenPosBlack.get(i);
-			ArrayList<XYCoordinates> allQueenMoves = getTargets(queenPos.getX(), queenPos.getY(), board);
+			ArrayList<XYCoordinates> allQueenMoves = getTargets(queenPos.getX(), queenPos.getY(), board,queenPos);
 			
 			while(!allQueenMoves.isEmpty()) {
 				XYCoordinates queenNext = allQueenMoves.remove(0);
-				ArrayList<XYCoordinates> allTargets = getTargets(queenNext.getX(), queenNext.getY(), board);
-//				if(allTargets.isEmpty()) {
-//					// add a double check function
-//					//call isTrapped 
-//					board.isTrappedBlack(queenCount);
-//				}
+				ArrayList<XYCoordinates> allTargets = getTargets(queenNext.getX(), queenNext.getY(), board,queenPos);
+
 				while(!allTargets.isEmpty()) {
 					XYCoordinates arrowPos = allTargets.remove(0);
 					
@@ -35,7 +31,9 @@ public class AllPossibleActions {
 			queenCount++;
 			
 		}
-		
+		if(allMoves.isEmpty()) {
+			board.setTrappedBlackPos(true);
+		}
 		return allMoves;
 	
 		
@@ -49,17 +47,12 @@ public class AllPossibleActions {
 		for(int i = 0; i < queenPosWhite.size(); i++) {
 			XYCoordinates queenPos = queenPosWhite.get(i);
 		
-			ArrayList<XYCoordinates> allQueenMoves = getTargets(queenPos.getX(), queenPos.getY(), board);
+			ArrayList<XYCoordinates> allQueenMoves = getTargets(queenPos.getX(), queenPos.getY(), board, queenPos);
 			
 			while(!allQueenMoves.isEmpty()) {
 				XYCoordinates queenNext = allQueenMoves.remove(0);
-				ArrayList<XYCoordinates> allTargets = getTargets(queenNext.getX(), queenNext.getY(), board);
+				ArrayList<XYCoordinates> allTargets = getTargets(queenNext.getX(), queenNext.getY(), board, queenPos);
 				
-//				if(allTargets.isEmpty()) {
-//					// add a double check function
-//					//call isTrapped 
-//					board.isTrappedWhite(queenCount);
-//				}
 				while(!allTargets.isEmpty()) {
 					XYCoordinates arrowPos = allTargets.remove(0);
 					
@@ -69,6 +62,9 @@ public class AllPossibleActions {
 			queenCount++;
 			
 		}
+		if(allMoves.isEmpty()) {
+			board.setTrappedWhitePos(true);
+		}
 		return allMoves;
 		
 		
@@ -76,7 +72,7 @@ public class AllPossibleActions {
 	}
 	
 	
-	public ArrayList<XYCoordinates> getTargets(int X, int Y, Board board) {
+	public ArrayList<XYCoordinates> getTargets(int X, int Y, Board board, XYCoordinates queenPos) {
 		ArrayList<XYCoordinates> target = new ArrayList<XYCoordinates>();
 		int count = 8;
 		
@@ -90,7 +86,7 @@ public class AllPossibleActions {
 				i += count;
 				count = 8;
 				
-			}else if(board.getGamePos(x,y) != 0) { //If returns 0 it is a free space if not it can't move
+			}else if(board.getGamePos(x,y) != 0 && (x != queenPos.x || y != queenPos.y)) { //If returns 0 it is a free space if not it can't move
 				i += count;
 				count = 8;
 			}else {
@@ -108,9 +104,58 @@ public class AllPossibleActions {
 		return target;
 	}
 	
-	public void trapped(){
+	public Boolean trappedNextQueen(ArrayList<XYCoordinates> queenPos, Board board){
+		ArrayList<XYCoordinates> actionList = action.getLevel1();
+		ArrayList<XYCoordinates> queenNext = new ArrayList<XYCoordinates>();
+		Boolean isTrapped = true;
+		for(XYCoordinates queen: queenPos) {
+			int i =0;
+			int X = queen.x;
+			int Y = queen.y;
+			while(i < actionList.size()) {	
+				int x = X + actionList.get(i).getX();
+				int y = Y + actionList.get(i).getY();
+				if(x > 10 || x < 1 || y > 10 || y < 1 ) { 
+					
+				}else if(board.getGamePos(x,y) != 0){
+					
+				}else {
+					System.out.println("Here");
+					queenNext.add(new XYCoordinates(x, y));
+				}
+				isTrapped = trappedArrow(queenNext, board, queen);
+				if(isTrapped == false) {
+					return false;
+				}
+			i++;
+		}
+			
+		}
 		
-		
+		return true;
+	}
+	public Boolean trappedArrow(ArrayList<XYCoordinates> queenNext, Board board, XYCoordinates queenPos) {
+		ArrayList<XYCoordinates> actionList = action.getLevel1();
+		ArrayList<XYCoordinates> arrowPos = new ArrayList<XYCoordinates>();
+		for(XYCoordinates queen: queenNext) {
+			int i =0;
+			int X = queen.x;
+			int Y = queen.y;
+			while(i < actionList.size()) {	
+				int x = X + actionList.get(i).getX();
+				int y = Y + actionList.get(i).getY();
+				//System.out.println(x + ", " + y);
+				if(x > 10 || x < 1 || y > 10 || y < 1 ) { 
+					//System.out.println("Out of bounds");
+				}else if(board.getGamePos(x,y) != 0  && (x != queenPos.x || y != queenPos.y)){
+					//System.out.println("game piece");
+				}else {
+					return false;
+				}
+			i++;
+		}
+		}
+		return true;
 	}
 	
 	
