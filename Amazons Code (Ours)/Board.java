@@ -63,13 +63,6 @@ public  class Board {
 	// clone board constructor
 	public Board(Board cloned) {
 		this();
-		for(XYCoordinates whiteCoord : cloned.getWhitePos()) {
-			whitePos.add(whiteCoord);
-		}
-		for(XYCoordinates blackCoord : cloned.getBlackPos()) {
-			blackPos.add(blackCoord);
-		}
-		
 	}
 	
 	// clone board method -- do we need this?
@@ -86,10 +79,10 @@ public  class Board {
 			for(int j = 1; j < 11; j++) {
 				if(board[i][j] == WHITE_QUEEN) {
 					System.out.print(" W ");
-					whitePos.add(new XYCoordinates(i, j));
+					//whitePos.add(new XYCoordinates(i, j));
 				}else if(board[i][j] == BLACK_QUEEN) {
 					System.out.print(" B ");
-					blackPos.add(new XYCoordinates(i, j));
+					//blackPos.add(new XYCoordinates(i, j));
 				}else if (board[i][j] == ARROW) {
 					System.out.print(" A ");
 				}else {
@@ -115,28 +108,39 @@ public  class Board {
 	
 	
 	public void updateState(XYCoordinates queenPos, XYCoordinates queenNext, XYCoordinates arrowPos) {
-		System.out.println(queenPos.x + "," + queenPos.y);
-		System.out.println(queenNext.x + "," + queenNext.y);
+//		System.out.println(queenPos.x + "," + queenPos.y);
+//		System.out.println(queenNext.x + "," + queenNext.y);
 		int queen = board[queenPos.x][queenPos.y];
 		board[queenPos.x][queenPos.y] = AVAILABLE;
 		board[queenNext.x][queenNext.y] = queen;
 		board[arrowPos.x][arrowPos.y] = ARROW;
-		if(queen == BLACK_QUEEN) {
-			ArrayList<XYCoordinates> blackPos = getBlackPos();
-			for(int i = 0; i < blackPos.size(); i++ ) {
-				if(blackPos.get(i).y ==queenNext.y && blackPos.get(i).x == queenNext.x) {
-					blackPos.set(i, queenNext);
+//		if(queen == BLACK_QUEEN) {
+//			ArrayList<XYCoordinates> newblackPos = getBlackPos();
+//			for(int i = 0; i < newblackPos.size(); i++ ) {
+//				if(newblackPos.get(i).y ==queenNext.y && newblackPos.get(i).x == queenNext.x) {
+//					newblackPos.set(i, queenNext);
+//				}
+//			}
+//			setBlackPos(blackPos);
+//		}else if(queen == WHITE_QUEEN) {
+//			ArrayList<XYCoordinates> whitePos = getWhitePos();
+//			for(int i = 0; i < whitePos.size(); i++ ) {
+//				if(whitePos.get(i).y ==queenNext.y && whitePos.get(i).x == queenNext.x) {
+//					whitePos.set(i, queenNext);
+//				}
+//			}
+//			//setWhitePos(whitePos);
+//		}
+		whitePos.clear();
+		blackPos.clear();
+		for(int i = 10; i > 0 ; i--) {
+			for(int j = 1; j < 11; j++) {
+				if(board[i][j] == WHITE_QUEEN) {
+					whitePos.add(new XYCoordinates(i, j));
+				}else if(board[i][j] == BLACK_QUEEN) {
+					blackPos.add(new XYCoordinates(i, j));
 				}
 			}
-			setBlackPos(blackPos);
-		}else if(queen == WHITE_QUEEN) {
-			ArrayList<XYCoordinates> whitePos = getWhitePos();
-			for(int i = 0; i < whitePos.size(); i++ ) {
-				if(whitePos.get(i).y ==queenNext.y && whitePos.get(i).x == queenNext.x) {
-					whitePos.set(i, queenNext);
-				}
-			}
-			setWhitePos(whitePos);
 		}
 	
 		
