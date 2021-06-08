@@ -1,22 +1,17 @@
-/*
- * Sources used:
- * https://www.baeldung.com/java-monte-carlo-tree-search
- */
 package ubc.cosc322;
 
+import java.util.Collections;
+import java.util.Comparator;
+//heavly copied need to fix and write our own
 public class UCT {
-	public static double uctVal(int totalNumSimulations, double numWins, int numSimulations) {
-		double explorationParameter = Math.sqrt(2);
-		double lnt = Math.log(totalNumSimulations);
-		if(numSimulations == 0 ) {
+	public static double uctValue(int totalVisit, double nodeWinScore, int nodeVisit) {
+		if(nodeVisit  == 0) {
 			return Integer.MAX_VALUE;
-		} else {
-			double uctValue = ((double)numWins/(double)numSimulations) + explorationParameter * (Math.sqrt(lnt / (double)numSimulations));
-			return uctValue;	
 		}
+		return ((double)nodeWinScore/(double)nodeVisit)+1.41*Math.sqrt(Math.log(totalVisit)/(double)nodeVisit);
 	}
-	
-	public static Node uctFindBestNode(Node node) {
-		return node;
+	public static Node findBestNodeWithUCT(Node node) {
+		int parentVisit = node.getState().getVisitCount();
+		return Collections.max(node.getChildArray(), Comparator.comparing(c -> uctValue(parentVisit, c.getState().getWinScore(), c.getState().getVisitCount())));
 	}
 }
