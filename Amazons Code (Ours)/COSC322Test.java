@@ -125,6 +125,8 @@ public class COSC322Test extends GamePlayer{
     	if(messageType.equalsIgnoreCase(GameMessage.GAME_STATE_BOARD)) {
     		ArrayList <Integer> gameState = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE);
     	//	board.setState(gameState);
+    		//board.printStateTest(gameState);
+    	
     		board.printState();
     		gamegui.setGameState(gameState);
     		//edit setState, updateState, and printState methods
@@ -157,21 +159,27 @@ public class COSC322Test extends GamePlayer{
 	}
 	
 	protected void pickAmove() {
-    	RandomPlayer ran = new RandomPlayer();
-    	AllPossibleActions actions = new AllPossibleActions();
-    	Move ranMove = null;
-    	if(player == 1) {
-    		ranMove = ran.ranMove(actions.getAllBlackQueens(board));
-    	}else if(player == 2) {
-    		ranMove = ran.ranMove(actions.getAllWhiteQueens(board));
-    	}
-    	sendMove(ranMove);
+//    	RandomPlayer ran = new RandomPlayer();
+//    	AllPossibleActions actions = new AllPossibleActions();
+//    	Move ranMove = null;
+//    	if(player == 1) {
+//    		ranMove = ran.ranMove(actions.getAllBlackQueens(board));
+//    		
+//    	}else if(player == 2) {
+//    		ranMove = ran.ranMove(actions.getAllWhiteQueens(board));
+//    	
+//    	}
+//    	sendMove(ranMove);
+		NewMonteCarlo mtcs = new NewMonteCarlo();
+    	Move mtcsMove = mtcs.findNextMove(board, player);
+    	
+    	sendMove(mtcsMove);
     	
     }
 	
 	
 	 protected void sendMove(Move move) {
-	    	if(move!= null) {
+	    	if(move != null) {
 	    		board.updateState(move.queenPos, move.queenNext, move.arrowPos);
 	    		board.printState();
 	    		gamegui.updateGameState(new ArrayList<Integer>(move.getQueenPos()), new ArrayList<Integer>(move.getQueenNext()), new ArrayList<Integer>(move.getArrowPos()));
