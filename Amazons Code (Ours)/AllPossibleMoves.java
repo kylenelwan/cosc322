@@ -9,20 +9,22 @@ public class AllPossibleActions {
 	public ArrayList<Move> getAllBlackQueens(Board board) {
 		//if(user is black)
 		ArrayList<Move> allMoves = new ArrayList<Move>();
-		ArrayList<XYCoordinates> queenPosBlack = board.blackPos;
+		ArrayList<XYCoordinates> queenPosBlack = board.getBlackPos();
+		
 		int queenCount = 0;
-		while(!queenPosBlack.isEmpty()) {
-			XYCoordinates queenPos = queenPosBlack.remove(0);
+		
+		for(int i = 0; i < queenPosBlack.size(); i++) {
+			XYCoordinates queenPos = queenPosBlack.get(i);
 			ArrayList<XYCoordinates> allQueenMoves = getTargets(queenPos.getX(), queenPos.getY(), board);
 			
 			while(!allQueenMoves.isEmpty()) {
 				XYCoordinates queenNext = allQueenMoves.remove(0);
 				ArrayList<XYCoordinates> allTargets = getTargets(queenNext.getX(), queenNext.getY(), board);
-				if(allTargets.isEmpty()) {
-					// add a double check function
-					//call isTrapped 
-					board.isTrappedBlack(queenCount);
-				}
+//				if(allTargets.isEmpty()) {
+//					// add a double check function
+//					//call isTrapped 
+//					board.isTrappedBlack(queenCount);
+//				}
 				while(!allTargets.isEmpty()) {
 					XYCoordinates arrowPos = allTargets.remove(0);
 					
@@ -33,6 +35,7 @@ public class AllPossibleActions {
 			queenCount++;
 			
 		}
+		
 		return allMoves;
 	
 		
@@ -41,9 +44,10 @@ public class AllPossibleActions {
 		//if(user is white)
 		ArrayList<Move> allMoves = new ArrayList<Move>();
 		ArrayList<XYCoordinates> queenPosWhite = board.whitePos;
+	
 		int queenCount = 0;
-		while(!queenPosWhite.isEmpty()) {
-			XYCoordinates queenPos = queenPosWhite.remove(0);
+		for(int i = 0; i < queenPosWhite.size(); i++) {
+			XYCoordinates queenPos = queenPosWhite.get(i);
 		
 			ArrayList<XYCoordinates> allQueenMoves = getTargets(queenPos.getX(), queenPos.getY(), board);
 			
@@ -51,11 +55,11 @@ public class AllPossibleActions {
 				XYCoordinates queenNext = allQueenMoves.remove(0);
 				ArrayList<XYCoordinates> allTargets = getTargets(queenNext.getX(), queenNext.getY(), board);
 				
-				if(allTargets.isEmpty()) {
-					// add a double check function
-					//call isTrapped 
-					board.isTrappedWhite(queenCount);
-				}
+//				if(allTargets.isEmpty()) {
+//					// add a double check function
+//					//call isTrapped 
+//					board.isTrappedWhite(queenCount);
+//				}
 				while(!allTargets.isEmpty()) {
 					XYCoordinates arrowPos = allTargets.remove(0);
 					
