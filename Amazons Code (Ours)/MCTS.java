@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class NewMonteCarlo {
+	public int whiteWins = 0;
+	public int blackWins = 0;
 	static final int WIN_SCORE = 10;
 	int level;
 	int opponent;
@@ -11,15 +13,14 @@ public class NewMonteCarlo {
 	public Move findNextMove(Board board, int playerNo) {
 		opponent = 3 - playerNo;
 		System.out.println("In monte");
-		//board.printState();
 		Tree tree = new Tree();
 		Node rootNode = tree.getRoot();
 		rootNode.getState().setBoard(board);
-		rootNode.getState().setPlayerNo(playerNo);
-		//System.out.println(rootNode.childArray.isEmpty());
-		//rootNode.getState().getBoard().printState();
+		rootNode.getState().setPlayerNo(opponent);
 		long startTime = System.currentTimeMillis();
-		while((System.currentTimeMillis()-startTime)<1000) {
+		int count = 0;
+		while((System.currentTimeMillis()-startTime) < 28500) {
+		
 			//System.out.println("Phase 1");
 			//Phase 1
 			Node promisingNode = selectPromisingNode(rootNode);
@@ -27,22 +28,37 @@ public class NewMonteCarlo {
 			if(promisingNode.getState().getBoard().checkGame() == -1) {
 				expandNode(promisingNode);
 			}
+			
 			//Phase 3
-			Node nodeToExplore = promisingNode;
+			//System.out.println("HERE");
+			Node nodeToExplore = new Node(promisingNode);
+			//nodeToExplore.state.board.printState();
 			if(promisingNode.getChildArray().size()>0) {
 				nodeToExplore = promisingNode.getRandomChildNode();
 			}
-			
+			//nodeToExplore.state.board.printState();
 			int playoutResult = simulateRandomPlayout(nodeToExplore);
-			//System.out.println(playoutResult);
+			
 			backPropogation(nodeToExplore, playoutResult);
-		}
-		//System.out.println(rootNode.getChildArray().size());
-		for(Node testNode: rootNode.getChildArray()) {
-			System.out.println(testNode.state.winScore);
-		}
+			count++;
+	}
+		
+		System.out.println("Root node visits");
+		System.out.println(rootNode.state.visitCount);
+		System.out.println("Possible moves");
+		ArrayList<State> possibleStates = rootNode.getState().getAllPossibleStates();
+		System.out.println(possibleStates.size());
+		System.out.println("Child ArraySize");
+		System.out.println(rootNode.childArray.size());
 		Node winnerNode = rootNode.getChildWithMaxScore();
-		//System.out.println(winnerNode.state.winScore);
+		System.out.println("Winner Node Visits");
+		System.out.println(winnerNode.state.visitCount);
+		System.out.println("Final score");
+		System.out.println(winnerNode.state.winScore);
+		System.out.println("Black Wins");
+		System.out.println(winnerNode.state.winScoreBlack);
+		System.out.println("White Wins");
+		System.out.println(winnerNode.state.winScoreWhite);
 		tree.setRoot(winnerNode);
 		return winnerNode.getState().move;
 	}
@@ -59,21 +75,20 @@ public class NewMonteCarlo {
 	}
 	
 	private void expandNode(Node node) {
-		
 		ArrayList<State> possibleStates = node.getState().getAllPossibleStates();
-		for(State state: possibleStates) {
-			Node newNode = new Node(state);
-			newNode.setParent(node);
-			newNode.getState().setPlayerNo(node.getState().getOpponent());
-			node.getChildArray().add(newNode);
-		}
-		
+		possibleStates.forEach(state -> {
+            Node newNode = new Node(state);
+            newNode.setParent(node);
+            newNode.getState().setPlayerNo(node.getState().getOpponent());
+            node.getChildArray().add(newNode);
+        });	
 		
 	}
 	private int simulateRandomPlayout(Node node) {
 		Node tempNode = new Node(node);
 		State tempState = tempNode.getState();
 		int boardStatus = tempState.getBoard().checkGame();
+
 		
 		if(boardStatus == opponent) {
 			tempNode.getParent().getState().setWinScore(Integer.MIN_VALUE);
@@ -81,19 +96,23 @@ public class NewMonteCarlo {
 		}
 		
 		while(boardStatus == -1) {
-			tempState.togglePlayer();
 			boardStatus = tempState.randomPlay();
-			//boardStatus = tempState.getBoard().checkGame();
+			tempState.togglePlayer();
 		}
-	
+		if(boardStatus == 1) {
+			blackWins++;
+		}else if(boardStatus == 2) {
+			whiteWins++;
+		}
 		return boardStatus;
 	}
 	
-	private void backPropogation(Node nodeToExplore, int playerNo) {
+	private void backPropogation(Node nodeToExplore, int playoutResult) {
 		Node tempNode = nodeToExplore;
 		while(tempNode != null) {
 			tempNode.getState().incrementVisit();
-			if(tempNode.getState().getPlayerNo() == playerNo) {
+			tempNode.state.addBlackWhiteWins(WIN_SCORE, playoutResult);
+			if(tempNode.getState().getPlayerNo() == playoutResult) {
 				tempNode.getState().addScore(WIN_SCORE);
 			}
 			tempNode = tempNode.getParent();
