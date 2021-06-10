@@ -10,6 +10,9 @@ public class State {
 	    int playerNo;
 	    int visitCount;
 	    double winScore;
+	    double winScoreWhite;
+	    double winScoreBlack;
+	  //  private AllPossibleActions actions = new AllPossibleActions();
 	    Move move;
 //	    AllPossibleActions actions;
 	    // copy constructor, getters, and setters
@@ -39,7 +42,8 @@ public class State {
 	        // constructs a list of all possible states from current state
 	    	ArrayList<Move> allActions = new ArrayList<Move>();
 	    	AllPossibleActions actions = new AllPossibleActions();
-	    	if(playerNo == 1) {
+	    	//board.printState();
+	    	if(playerNo == 2) {
 	    		allActions = actions.getAllBlackQueens(board);
 	    		
 	    	}else {
@@ -69,10 +73,11 @@ public class State {
 
 
 		public ArrayList<Move> getAllPossibleMoves(){
-	    	AllPossibleActions actions = new AllPossibleActions();
+			AllPossibleActions actions = new AllPossibleActions();
 	      	ArrayList<Move> allActions = new ArrayList<Move>();
-	    	if(playerNo == 1) {
+	    	if(playerNo == 2) {
 	    		allActions = actions.getAllBlackQueens(board);
+	    	
 	    		
 	    	}else {
 	    		 allActions = actions.getAllWhiteQueens(board);
@@ -83,9 +88,9 @@ public class State {
 	    public int randomPlay() {
 	        /* get a list of all possible positions on the board and 
 	           play a random move */
-	    	
+	    	//try to add a random move pick and test if valid 
 	    	ArrayList<Move> allPos = getAllPossibleMoves();
-	    	if(allPos.size() >0) {
+	    	if(!board.isTrapped()) {
 	    	//System.out.println(allPos.size());
 	    	Random rand = new Random();
 			int randomNum = rand.nextInt(allPos.size());
@@ -93,8 +98,16 @@ public class State {
 			//System.out.println("ranMove");
 	        board.updateState(ranMove.queenPos, ranMove.queenNext, ranMove.arrowPos);
 	    	return -1;
-	    	}else
-	    		return 3 - playerNo;
+	    	}else {
+	    		if(board.trappedBlackPos) {
+	    			return 2;
+	    		}else if(board.trappedWhitePos) {
+	    			return 1;
+	    		}else {
+	    			System.out.println("Error");
+	    			return -1;
+	    		}
+	    	}
 	    
 	    }
 	    
@@ -140,6 +153,14 @@ public class State {
 		void addScore(double score) {
 		      if (this.winScore != Integer.MIN_VALUE)
 		          this.winScore += score;
+		
+		}
+		void addBlackWhiteWins(double score, int winner) {
+			if(winner == 1) {
+				winScoreBlack++;
+			}else {
+				winScoreWhite++;
+			}
 		}
 		
 		
