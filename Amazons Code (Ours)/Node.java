@@ -52,15 +52,25 @@ public class Node {
 	}
 	
 	public Node getRandomChildNode() {
-		Random rand = new Random();
-		int randomNum = rand.nextInt(childArray.size());
-		Node ranChild = childArray.get(randomNum);
-		return ranChild;
+		int noOfPossibleMoves = this.childArray.size();
+        int selectRandom = (int) (Math.random() * noOfPossibleMoves);
+        return this.childArray.get(selectRandom);
 	}
 	
 	public Node getChildWithMaxScore() {
 		  return Collections.max(this.childArray, Comparator.comparing(c -> {
 	            return c.getState().getVisitCount();
+	        }));
+	}
+	
+	public Node getChildWithBestWinScore() {
+		 return Collections.max(this.childArray, Comparator.comparing(c -> {
+	            return c.getState().getWinScore();
+	        }));
+	}
+	public Node getChildWithBestWinRate() {
+		 return Collections.max(this.childArray, Comparator.comparing(c -> {
+	            return c.getState().getWinScore()/c.getState().visitCount;
 	        }));
 	}
 	
