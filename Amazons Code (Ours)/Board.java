@@ -63,8 +63,28 @@ public  class Board {
 
 	
 	// clone board constructor
-	public Board(Board cloned) {
-		this();
+//	public Board(Board cloned) {
+//		this();
+//	}
+	public Board(Board clone) {
+//		Boolean trappedWhitePos = false;
+//		Boolean trappedBlackPos = false;
+		board = new int[ROWS][COLS];
+		for(int i = 10; i > 0 ; i--) {
+			for(int j = 1; j < 11; j++) {
+				if(clone.board[i][j] == WHITE_QUEEN) {
+					board[i][j] = WHITE_QUEEN;
+					whitePos.add(new XYCoordinates(i, j));
+				}else if(clone.board[i][j] == BLACK_QUEEN) {
+					board[i][j] = BLACK_QUEEN;
+					blackPos.add(new XYCoordinates(i, j));
+				}else if(clone.board[i][j] == ARROW){
+					board[i][j] = ARROW;
+				}else {
+					board[i][j] = AVAILABLE;
+				}
+			}
+		}
 	}
 	
 	// clone board method -- do we need this?
@@ -126,6 +146,14 @@ public  class Board {
 				}
 			}
 		}
+		AllPossibleActions actions = new AllPossibleActions();
+		if(actions.trappedNextQueen(blackPos, this)) {
+		//	System.out.println("White Wins");
+			setTrappedBlackPos(true);
+		}else if(actions.trappedNextQueen(whitePos, this)) {
+//			System.out.println("Black Wins");
+			setTrappedWhitePos(true);
+		}
 	
 		
 	}
@@ -133,25 +161,15 @@ public  class Board {
 		return board[x][y];
 	}
 	
-//	public boolean isTrappedTest() {
-//		AllPossibleActions all = new AllPossibleActions();
-//		if(playerNo == 1) {
-//			
-//		}else if(playerNo == 2){
-//			
-//		}
-//	}
-	
-
 	
 	public Boolean isTrapped() {
-		if(playerNo == 1) {
-			return getTrappedBlackPos();
-		}else if(playerNo ==2) {
-			return getTrappedWhitePos();
-		}else
+		if(getTrappedBlackPos() || getTrappedWhitePos()) {
+			return true;
+		}else {
 			return false;
+		}
 	}
+
 	
 	public int checkGame() {
 		if(isTrapped()) {
