@@ -28,6 +28,7 @@ public class COSC322Test extends GamePlayer{
     public int getColor() {
 		return color;
 	}
+    private int numMoves = 0;
 
 	public void setColor(int color) {
 		this.color = color;
@@ -158,25 +159,41 @@ public class COSC322Test extends GamePlayer{
 	}
 	
 	protected void pickAmove() {
-		AllPossibleActions action = new AllPossibleActions();
-		if(action.trappedNextQueen(board.blackPos, board)) {
-				System.out.println("White wins Game over!");
-				board.setTrappedBlackPos(true);
-		}
-		if(action.trappedNextQueen(board.whitePos, board)) {
-				System.out.println("Black wins Game over!");
-				board.setTrappedWhitePos(true);
-		}
-		if(!board.isTrapped()) {
-			NewMonteCarlo mtcs = new NewMonteCarlo();
-			Move mtcsMove = mtcs.findNextMove(board, board.playerNo);
-			sendMove(mtcsMove);
+		int moveNo = getNumMoves();
+		if(board.checkGame() == -1) {
+			if(moveNo < 6) {
+				earlyGame eGame = new earlyGame();
+				Move eGameMove = eGame.findNextMove(board, board.playerNo);
+				sendMove(eGameMove);
+				moveNo++;
+				setNumMoves(moveNo);
+				
+			}else {
+				NewMonteCarlo2 mtcs = new NewMonteCarlo2();
+				Move mtcsMove = mtcs.findNextMove(board, board.playerNo);
+				sendMove(mtcsMove);
+			}
+		}else {
+			if(board.trappedBlackPos) {
+				System.out.println("White Wins");
+			}else {
+				System.out.println("Black Wins");
+				
+			}
 		}
     	
     }
 	
 	
-	 protected void sendMove(Move move) {
+	 public int getNumMoves() {
+		return numMoves;
+	}
+
+	public void setNumMoves(int numMoves) {
+		this.numMoves = numMoves;
+	}
+
+	protected void sendMove(Move move) {
 	    	if(move != null) {
 	    		board.updateState(move.queenPos, move.queenNext, move.arrowPos);
 	    		board.printState();
