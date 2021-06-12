@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class AllPossibleActions {
 
 	
-	Actions action = new Actions();
+	
 	public ArrayList<Move> getAllBlackQueens(Board board) {
 		//if(user is black)
 		ArrayList<Move> allMoves = new ArrayList<Move>();
@@ -74,9 +74,11 @@ public class AllPossibleActions {
 	
 	public ArrayList<XYCoordinates> getTargets(int X, int Y, Board board, XYCoordinates queenPos) {
 		ArrayList<XYCoordinates> target = new ArrayList<XYCoordinates>();
+		Actions action = new Actions();
+		ArrayList<XYCoordinates> actionList = action.getActions();
 		int count = 8;
 		
-		ArrayList<XYCoordinates> actionList = action.getActions();
+		//ArrayList<XYCoordinates> actionList = action.getActions();
 		int i = 0;
 		while(i < actionList.size()) {	
 			int x = X + actionList.get(i).getX();
@@ -105,6 +107,8 @@ public class AllPossibleActions {
 	}
 	
 	public Boolean trappedNextQueen(ArrayList<XYCoordinates> queenPos, Board board){
+		 Actions action = new Actions();
+		// ArrayList<XYCoordinates> actionList = action.getActions();
 		ArrayList<XYCoordinates> actionList = action.getLevel1();
 		ArrayList<XYCoordinates> queenNext = new ArrayList<XYCoordinates>();
 		Boolean isTrapped = true;
@@ -120,7 +124,7 @@ public class AllPossibleActions {
 				}else if(board.getGamePos(x,y) != 0){
 					
 				}else {
-					System.out.println("Here");
+					//System.out.println("Here");
 					queenNext.add(new XYCoordinates(x, y));
 				}
 				isTrapped = trappedArrow(queenNext, board, queen);
@@ -131,10 +135,11 @@ public class AllPossibleActions {
 		}
 			
 		}
-		
 		return true;
 	}
 	public Boolean trappedArrow(ArrayList<XYCoordinates> queenNext, Board board, XYCoordinates queenPos) {
+		Actions action = new Actions();
+		//private ArrayList<XYCoordinates> actionList = action.getActions();
 		ArrayList<XYCoordinates> actionList = action.getLevel1();
 		ArrayList<XYCoordinates> arrowPos = new ArrayList<XYCoordinates>();
 		for(XYCoordinates queen: queenNext) {
