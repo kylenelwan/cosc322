@@ -90,12 +90,11 @@ public class State {
 	           play a random move */
 	    	//try to add a random move pick and test if valid 
 	    	ArrayList<Move> allPos = getAllPossibleMoves();
-	    	if(!board.isTrapped()) {
+	    	if(allPos.size() > 0) {
 	    	//System.out.println(allPos.size());
 	    	Random rand = new Random();
 			int randomNum = rand.nextInt(allPos.size());
 			Move ranMove = allPos.get(randomNum);
-			//System.out.println("ranMove");
 	        board.updateState(ranMove.queenPos, ranMove.queenNext, ranMove.arrowPos);
 	    	return -1;
 	    	}else {
@@ -151,8 +150,8 @@ public class State {
 			visitCount++;
 		}
 		void addScore(double score) {
-		      if (this.winScore != Integer.MIN_VALUE)
-		          this.winScore += score;
+		     // if (this.winScore != Integer.MIN_VALUE)
+		      this.winScore += score;
 		
 		}
 		void addBlackWhiteWins(double score, int winner) {
