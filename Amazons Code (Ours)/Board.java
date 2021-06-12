@@ -146,14 +146,14 @@ public  class Board {
 				}
 			}
 		}
-		AllPossibleActions actions = new AllPossibleActions();
-		if(actions.trappedNextQueen(blackPos, this)) {
-		//	System.out.println("White Wins");
-			setTrappedBlackPos(true);
-		}else if(actions.trappedNextQueen(whitePos, this)) {
-//			System.out.println("Black Wins");
-			setTrappedWhitePos(true);
-		}
+//		AllPossibleActions actions = new AllPossibleActions();
+//		if(actions.trappedNextQueen(blackPos, this)) {
+//		//	System.out.println("White Wins");
+//			setTrappedBlackPos(true);
+//		}else if(actions.trappedNextQueen(whitePos, this)) {
+////			System.out.println("Black Wins");
+//			setTrappedWhitePos(true);
+//		}
 	
 		
 	}
@@ -163,7 +163,12 @@ public  class Board {
 	
 	
 	public Boolean isTrapped() {
-		if(getTrappedBlackPos() || getTrappedWhitePos()) {
+		AllPossibleActions actions = new AllPossibleActions();
+		if(actions.trappedNextQueen(blackPos, this)) {
+			setTrappedBlackPos(true);
+			return true;
+		}else if(actions.trappedNextQueen(whitePos, this)) {
+			setTrappedWhitePos(true);
 			return true;
 		}else {
 			return false;
@@ -173,10 +178,14 @@ public  class Board {
 	
 	public int checkGame() {
 		if(isTrapped()) {
-			return 3 -playerNo;
-		}else {
-			return -1;
+			if(getTrappedBlackPos()) {
+				return 2;
+			} 
+			if(getTrappedWhitePos()) {
+				return 1;
+			}
 		}
+		return -1;
 	}
 	// getter and setter methods
 	public ArrayList<XYCoordinates> getWhitePos() {
