@@ -3,7 +3,6 @@ package ubc.cosc322;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
-//heavly copied need to fix and write our own
 public class UCT {
 	static double epsilon = 1e-6;
 	static Random r = new Random();
