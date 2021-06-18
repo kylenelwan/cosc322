@@ -2,7 +2,7 @@ package ubc.cosc322;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+//https://www.baeldung.com/java-monte-carlo-tree-search
 public class NewMonteCarlo2 {
 
 	static final int WIN_SCORE = 10;
