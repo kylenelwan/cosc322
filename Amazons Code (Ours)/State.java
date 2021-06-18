@@ -3,7 +3,7 @@ package ubc.cosc322;
 import java.awt.List;
 import java.util.ArrayList;
 import java.util.Random;
-// 
+// https://www.baeldung.com/java-monte-carlo-tree-search
 public class State {
 	
 	    Board board;
